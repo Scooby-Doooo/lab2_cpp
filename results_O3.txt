@@ -1,0 +1,122 @@
+=============================================================================
+         MERGE ALGORITHM PERFORMANCE ANALYSIS
+=============================================================================
+
+System Information:
+  CPU Hardware Threads: 16
+  C++ Standard: C++20
+
+Test Data Sizes:
+  100000 elements
+  1000000 elements
+  10000000 elements
+
+================================================================================
+EXPERIMENT 1: Sequential std::merge (baseline)
+================================================================================
+
+This experiment is integrated into Experiment 2.
+Check Experiment 2 results for baseline measurements.
+
+
+================================================================================
+EXPERIMENT 2: Testing std::merge with Execution Policies
+================================================================================
+
+All tests use the same structure for fair comparison.
+Fresh data is generated for each test, measuring only merge time.
+
+Test Size: 100000 elements
+----------------------------------------------------------------------
+
+  Testing std::merge with different execution policies.
+  Using two separate sorted vectors merged into output buffer.
+
+  [1] std::merge (sequential, no policy):
+      Average: 1.043 ms (baseline)
+
+  [2] std::merge with std::execution::seq:
+      Average: 1.384 ms (vs baseline: 0.75x)
+
+  [3] std::merge with std::execution::par:
+      Average: 1.331 ms (vs baseline: 0.78x)
+
+  [4] std::merge with std::execution::par_unseq:
+      Average: 1.517 ms (vs baseline: 0.69x)
+
+
+Test Size: 1000000 elements
+----------------------------------------------------------------------
+
+  Testing std::merge with different execution policies.
+  Using two separate sorted vectors merged into output buffer.
+
+  [1] std::merge (sequential, no policy):
+      Average: 10.136 ms (baseline)
+
+  [2] std::merge with std::execution::seq:
+      Average: 12.125 ms (vs baseline: 0.84x)
+
+  [3] std::merge with std::execution::par:
+      Average: 10.203 ms (vs baseline: 0.99x)
+
+  [4] std::merge with std::execution::par_unseq:
+      Average: 11.908 ms (vs baseline: 0.85x)
+
+
+Test Size: 10000000 elements
+----------------------------------------------------------------------
+
+  Testing std::merge with different execution policies.
+  Using two separate sorted vectors merged into output buffer.
+
+  [1] std::merge (sequential, no policy):
+      Average: 69.825 ms (baseline)
+
+  [2] std::merge with std::execution::seq:
+      Average: 73.316 ms (vs baseline: 0.95x)
+
+  [3] std::merge with std::execution::par:
+      Average: 74.532 ms (vs baseline: 0.94x)
+
+  [4] std::merge with std::execution::par_unseq:
+      Average: 72.834 ms (vs baseline: 0.96x)
+
+
+================================================================================
+EXPERIMENT 3: Custom Parallel Merge - Finding Optimal K
+================================================================================
+
+Testing K parameter for data size: 10000000 elements
+
+CPU Hardware Threads: 16
+
+Generating test data... Done
+
+------------------------------------------------------------
+       K      Time (ms)        Speedup      K / CPU_threads
+------------------------------------------------------------
+       1         98.511           1.00x                  0.06
+       2        104.199           0.95x                  0.12
+       4         58.042           1.70x                  0.25
+       8         50.442           1.95x                  0.50
+      16         52.254           1.89x                  1.00
+      32         41.668           2.36x                  2.00
+      64         67.410           1.46x                  4.00
+------------------------------------------------------------
+
+RESULTS SUMMARY:
+  Optimal K value: 32
+  Best time: 41.668 ms
+  Speedup vs K=1: 2.36x
+  K / CPU_threads: 2.00
+
+  Observations:
+    - Optimal K exceeds CPU thread count
+    - Possible reasons: I/O wait or cache effects
+    - Performance drops by 61.8% at highest K
+    - Too many threads cause overhead
+
+=============================================================================
+Analysis completed successfully.
+=============================================================================
