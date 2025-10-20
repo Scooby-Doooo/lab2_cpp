@@ -1,0 +1,44 @@
+# Compiled executables
+*.exe
+*.out
+*.app
+merge_benchmark*
+!merge_benchmark.cpp
+
+# Object files
+*.o
+*.obj
+
+# Compiled libraries
+*.lib
+*.a
+*.dll
+*.so
+*.dylib
+
+# Debug files
+*.dSYM/
+*.su
+*.idb
+*.pdb
+
+# IDE files
+.vscode/
+.vs/
+*.swp
+*.swo
+*~
+.idea/
+
+# Results and logs
+results*.txt
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temporary files
+*.tmp
+*.temp
